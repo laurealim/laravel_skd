@@ -2,7 +2,17 @@
 import { Head } from '@inertiajs/vue3';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
+import WebLayout from '@/layouts/WebLayout.vue';
+// import WebNav from '@/components/web/WebNav.vue';
+
 import 'vue3-carousel/carousel.css';
+
+const props = defineProps({
+    isDashboard: Boolean,
+    logoUrl: String,
+    logo: String,
+    bgSlider: String,
+});
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 // Import Swiper styles
@@ -13,12 +23,7 @@ import 'swiper/css/pagination';
 
 // import required modules
 import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
-
 const modules = [EffectCoverflow, Pagination, Autoplay];
-
-defineProps(['logoUrl', 'logo','bgSlider']);
-
-const isDark = ref(false);
 
 const slides = [
     'https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp',
@@ -54,191 +59,12 @@ const swiperCaedImages = swiperCaeds.map((s_url, index) => ({ id: index + 1, url
 console.log(swiperCaedImages);
 
 onMounted(() => {
-    let scrollpos = window.scrollY;
-    let header = document.getElementById('header');
-    let navcontent = document.getElementById('nav-content');
-    let navaction = document.getElementById('navAction');
-    let brandname = document.getElementById('brandname');
-    let toToggle = document.querySelectorAll('.toggleColour');
-    let toggleButton = document.getElementById('toggleButton');
-
-    document.addEventListener('scroll', function () {
-        /*Apply classes for slide in bar*/
-        scrollpos = window.scrollY;
-        // const savedTheme = localStorage.getItem('theme');
-        // if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        //     isDark.value = true;
-        //     document.documentElement.classList.add('dark');
-        // }
-        scrollFunction();
-    });
-
-    /*Toggle dropdown list*/
-    /*https://gist.github.com/slavapas/593e8e50cf4cc16ac972afcbad4f70c8*/
-
-    let navMenuDiv = document.getElementById('nav-content');
-    let navMenu = document.getElementById('nav-toggle');
-
-    document.onclick = check;
-
-    function check(e) {
-        const target = (e && e.target) || (event && event.srcElement);
-
-        //Nav Menu
-        if (!checkParent(target, navMenuDiv)) {
-            // click NOT on the menu
-            if (checkParent(target, navMenu)) {
-                // click on the link
-                if (navMenuDiv.classList.contains('hidden')) {
-                    navMenuDiv.classList.remove('hidden');
-                } else {
-                    navMenuDiv.classList.add('hidden');
-                }
-            } else {
-                // click both outside link and outside menu, hide menu
-                navMenuDiv.classList.add('hidden');
-            }
-        }
-    }
-
-    function checkParent(t, elm) {
-        while (t.parentNode) {
-            if (t == elm) {
-                return true;
-            }
-            t = t.parentNode;
-        }
-        return false;
-    }
-
-    /* Dark Mood functionality Starts */
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        isDark.value = true;
-        // scrollFunction();
-        document.documentElement.classList.add('dark');
-    }
-    /* Dark Mood functionality Ends */
-
-    /*  Check Scrolling Changes */
-    function scrollFunction(e) {
-        if (scrollpos > 10) {
-            toggleButton.classList.remove('show');
-            toggleButton.classList.add('hidden');
-            // header = full navbar
-            // navaction = action button in navbar
-            // toToggle = left panel logo section in navbar
-            // navcontent = nevbar menu content section
-            if (isDark.value) {
-                // Dark Mode
-                header.classList.add('bg-white');
-                navaction.classList.remove('bg-white');
-                // navaction.classList.add("gradient");
-                navaction.classList.add('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
-                navaction.classList.remove('text-gray-800');
-                navaction.classList.add('text-white');
-                //Use to switch toggleColour colours
-                for (var i = 0; i < toToggle.length; i++) {
-                    toToggle[i].classList.add('text-gray-100');
-                    toToggle[i].classList.remove('text-white');
-                }
-                header.classList.add('shadow');
-                navcontent.classList.remove('bg-gray-100');
-                navcontent.classList.add('bg-white');
-            } else {
-                // Normal Mode
-                header.classList.add('bg-white');
-                navaction.classList.remove('bg-white');
-                navaction.classList.add('gradient');
-                // navaction.classList.add(
-                //     "dark:bg-gradient-to-tr",
-                //     "dark:from-gray-800",
-                //     "dark:to-gray-600"
-                // );
-                navaction.classList.remove('text-gray-800');
-                navaction.classList.add('text-white');
-                //Use to switch toggleColour colours
-                for (var i = 0; i < toToggle.length; i++) {
-                    toToggle[i].classList.add('text-gray-800');
-                    toToggle[i].classList.remove('text-white');
-                }
-                header.classList.add('shadow');
-                navcontent.classList.remove('bg-gray-100');
-                navcontent.classList.add('bg-white');
-            }
-        } else {
-            toggleButton.classList.remove('hidden');
-            toggleButton.classList.add('show');
-            // header = full navbar
-            // navaction = action button in navbar
-            // toToggle = left panel logo section in navbar
-            // navcontent = nevbar menu content section
-            if (isDark.value) {
-                // Dark Mode
-                header.classList.remove('bg-white');
-                // navaction.classList.remove("gradient");
-                navaction.classList.remove('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
-                navaction.classList.add('bg-white');
-                navaction.classList.remove('text-white');
-                navaction.classList.add('text-gray-800');
-                //Use to switch toggleColour colours
-                for (var i = 0; i < toToggle.length; i++) {
-                    toToggle[i].classList.add('text-white');
-                    toToggle[i].classList.remove('text-gray-800');
-                }
-
-                header.classList.remove('shadow');
-                navcontent.classList.remove('bg-white');
-                navcontent.classList.add('bg-gray-100');
-            } else {
-                // Normal Mode
-                header.classList.remove('bg-white');
-                navaction.classList.remove('gradient');
-                // navaction.classList.remove(
-                //     "dark:bg-gradient-to-tr",
-                //     "dark:from-gray-800",
-                //     "dark:to-gray-600"
-                // );
-                navaction.classList.add('bg-white');
-                navaction.classList.remove('text-white');
-                navaction.classList.add('text-gray-800');
-                //Use to switch toggleColour colours
-                for (var i = 0; i < toToggle.length; i++) {
-                    toToggle[i].classList.add('text-white');
-                    toToggle[i].classList.remove('text-gray-800');
-                }
-
-                header.classList.remove('shadow');
-                navcontent.classList.remove('bg-white'); // for small screens
-                navcontent.classList.add('bg-gray-100'); // for small screens
-            }
-        }
-    }
-
     interval = setInterval(nextSlide, 4000); // auto slide every 4s
 });
 
 onBeforeUnmount(() => {
     clearInterval(interval);
 });
-
-/* DarK Mood Toggle */
-const toggleDarkMode = () => {
-    let navaction = document.getElementById('navAction');
-    let toToggle = document.querySelectorAll('.toggleColour');
-    isDark.value = !isDark.value;
-    if (isDark.value) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-        // navaction.classList.remove("gradient");
-        navaction.classList.remove('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
-    } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-        // navaction.classList.add("gradient");
-        navaction.classList.add('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
-    }
-};
 
 const nextSlide = () => {
     currentSlide.value = (currentSlide.value + 1) % slides.length;
@@ -254,189 +80,31 @@ const prevSlide = () => {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
 
-    <div
-        id="content_body"
-        class="gradient font-sanspro from-gray-700 to-gray-900 leading-normal tracking-normal text-white dark:bg-black dark:bg-linear-to-bl"
-    >
-        <!--  Navbar  -->
-        <nav id="header" class="fixed top-0 z-30 w-full text-white dark:bg-black">
-            <div class="container mx-auto mt-0 flex w-full flex-wrap items-center justify-between py-2">
-                <div class="flex items-center">
-                    <div class="inline fill-current mr-4">
-                        <img :src="logo" class="lg:h-14 md:h-10 h-8 mt-0" />
-                    </div>
-                    <a class="toggleColour text-2xl font-bold text-white no-underline hover:no-underline lg:text-4xl" href="#">
-                        <!--Icon from: http://www.potlabicons.com/ -->
-<!--                        <svg class="inline h-8 fill-current" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 461.727 461.727">-->
-<!--                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>-->
-<!--                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>-->
-<!--                            <g id="SVGRepo_iconCarrier">-->
-<!--                                <g>-->
-<!--                                    <g>-->
-<!--                                        <path style="fill:#aa0e0e;" d="M236.436,6.861L230.868,0L225.3,6.861c-6.576,8.104-160.824,199.02-160.824,288.475 c0,91.739,74.645,166.392,166.384,166.392s166.392-74.653,166.392-166.392C397.26,205.856,242.996,14.957,236.436,6.861z M182.454,395.008l-2.162-1.024c-53.258-25.353-70.987-93.861-54.185-141.949l0.797-2.243l13.542,4.715l-0.788,2.268 c-14.477,41.35,1.187,102.542,46.796,124.286l2.162,1.024L182.454,395.008z"></path>-->
-<!--                                    </g>-->
-<!--                                </g>-->
-<!--                            </g>-->
-<!--                        </svg>-->
-                        BLOOD BANK
-                    </a>
-                </div>
-                <div class="block pr-4 lg:hidden">
-                    <button
-                        id="nav-toggle"
-                        class="focus:shadow-outline flex transform items-center p-1 text-pink-800 transition duration-300 ease-in-out hover:scale-105 hover:text-gray-900 focus:outline-none dark:text-white"
-                    >
-                        <svg class="h-6 w-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <title>Menu</title>
-                            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-                        </svg>
-                    </button>
-                </div>
-                <div
-                    class="z-20 mt-2 hidden w-full flex-grow bg-white p-4 text-black lg:mt-0 lg:flex lg:w-auto lg:items-center lg:bg-transparent lg:p-0 dark:max-lg:bg-black"
-                    id="nav-content"
-                >
-                    <ul class="list-reset flex-1 items-center justify-end lg:flex">
-                        <li class="mr-3" id="toggleButton">
-                            <!-- Toggle Button -->
-                            <button @click="toggleDarkMode" class="focus:outline-none">
-                                <!-- Moon Icon (show in light mode) -->
-                                <svg
-                                    v-show="!isDark"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="size-6 text-black"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-                                    />
-                                </svg>
-                                <!-- Sun Icon (show in dark mode) -->
-                                <svg
-                                    v-show="isDark"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="size-6 text-white"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                                    />
-                                </svg>
-                            </button>
-                        </li>
-                        <li class="mr-3">
-                            <a class="dark:text-blue inline-block px-4 py-2 font-bold text-black no-underline dark:text-white" href="#">Active</a>
-                        </li>
-                        <li class="mr-3">
-                            <a
-                                class="hover:text-underline inline-block px-4 py-2 text-black no-underline hover:text-gray-800 dark:text-white"
-                                href="#"
-                                >link</a
-                            >
-                        </li>
-                        <li class="mr-3">
-                            <a
-                                class="hover:text-underline inline-block px-4 py-2 text-black no-underline hover:text-gray-800 dark:text-white"
-                                href="#"
-                                >link</a
-                            >
-                        </li>
-                    </ul>
-                    <button
-                        id="navAction"
-                        class="focus:shadow-outline mx-auto mt-4 transform rounded-full bg-white px-8 py-4 font-bold text-gray-800 opacity-75 shadow transition duration-300 ease-in-out hover:scale-105 hover:underline focus:outline-none lg:mx-0 lg:mt-0"
-                    >
-                        Action
-                    </button>
-                </div>
-            </div>
-            <hr class="my-0 border-b border-gray-100 py-0 opacity-25" />
-        </nav>
-
+    <WebLayout :isDashboard="props.isDashboard">
+        <!--            <WebNav />-->
         <!--Hero-->
-<!--        <section-->
-<!--            class="w-full bg-cover bg-center bg-no-repeat flex items-center justify-center lg:pt-[4.5rem] px-4 md:px-8"-->
-<!--            style="background-image: url('/images/1.jpg'); min-height: 60vh;"-->
-<!--        >-->
-<!--            <div class="text-center text-white max-w-2xl py-16 md:py-24">-->
-<!--                <h1 class="text-3xl md:text-5xl font-bold mb-4">-->
-<!--                    Save Lives, Give Blood-->
-<!--                </h1>-->
-<!--                <p class="text-base md:text-lg mb-6">-->
-<!--                    Join our mission to make a difference. One donation at a time.-->
-<!--                </p>-->
-<!--                <a-->
-<!--                    href="#donate"-->
-<!--                    class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded transition"-->
-<!--                >-->
-<!--                    Learn More-->
-<!--                </a>-->
-<!--            </div>-->
-<!--        </section>-->
-<!--        <div class="from-gray-800 to-gray-600 lg:pt-[4.5rem] pt-13 dark:bg-linear-to-tr heroBgs">-->
-<!--            <div class="bg-cover containers bg-fixed mx-auto flex flex-col flex-wrap items-center md:flex-row heroBgs bg-no-repeat w-auto" style="background-image: url('images/1.jpg')">-->
-<!--                <div class="h-96"></div>-->
-        <div class="from-gray-800 to-gray-600 lg:pt-[4.5rem] pt-13 dark:bg-gradient-to-tr heroBgs">
-            <div
-                class="containers lg:pt-[8.5rem] w-full bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center md:flex-row"
-                style="background-image: url('/images/1.jpg')"
-            >
-                <div class="h-96"></div>
-<!--                <img :src="bgSlider" alt="" class="max-h-5/6 w-full"/>-->
-<!--                Left Col-->
-<!--                <div class="flex w-full flex-col items-start justify-center text-center md:w-2/5 md:text-left">-->
-<!--                    <p class="tracking-loose w-full uppercase">What business are you?</p>-->
-<!--                    <h1 class="my-4 text-5xl leading-tight font-bold">Main Hero Message to sell yourself!</h1>-->
-<!--                    <p class="mb-8 text-2xl leading-normal">Sub-hero message, not too long and not too short. Make it just right!</p>-->
-<!--                    <button-->
-<!--                        class="focus:shadow-outline mx-auto my-6 transform rounded-full bg-white px-8 py-4 font-bold text-gray-800 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:underline focus:outline-none lg:mx-0"-->
-<!--                    >-->
-<!--                        Subscribe-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                &lt;!&ndash;Right Col&ndash;&gt;-->
-<!--                <div class="w-full py-6 text-center md:w-3/5">-->
-<!--                    <img class="z-50 w-full md:w-4/5" :src="logoUrl" />-->
-<!--                </div>-->
-            </div>
-        </div>
-
-        <div class="relative -mt-12 lg:-mt-24">
-            <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-2.000000, 44.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                        <path
-                            d="M0,0 C90.7283404,0.927527913 147.912752,27.187927 291.910178,59.9119003 C387.908462,81.7278826 543.605069,89.334785 759,82.7326078 C469.336065,156.254352 216.336065,153.6679 0,74.9732496"
-                            opacity="0.100000001"
-                        ></path>
-                        <path
-                            d="M100,104.708498 C277.413333,72.2345949 426.147877,52.5246657 546.203633,45.5787101 C666.259389,38.6327546 810.524845,41.7979068 979,55.0741668 C931.069965,56.122511 810.303266,74.8455141 616.699903,111.243176 C423.096539,147.640838 250.863238,145.462612 100,104.708498 Z"
-                            opacity="0.100000001"
-                        ></path>
-                        <path
-                            d="M1046,51.6521276 C1130.83045,29.328812 1279.08318,17.607883 1439,40.1656806 L1439,120 C1271.17211,77.9435312 1140.17211,55.1609071 1046,51.6521276 Z"
-                            id="Path-4"
-                            opacity="0.200000003"
-                        ></path>
-                    </g>
-                    <g transform="translate(-4.000000, 76.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                        <path
-                            d="M0.457,34.035 C57.086,53.198 98.208,65.809 123.822,71.865 C181.454,85.495 234.295,90.29 272.033,93.459 C311.355,96.759 396.635,95.801 461.025,91.663 C486.76,90.01 518.727,86.372 556.926,80.752 C595.747,74.596 622.372,70.008 636.799,66.991 C663.913,61.324 712.501,49.503 727.605,46.128 C780.47,34.317 818.839,22.532 856.324,15.904 C922.689,4.169 955.676,2.522 1011.185,0.432 C1060.705,1.477 1097.39,3.129 1121.236,5.387 C1161.703,9.219 1208.621,17.821 1235.4,22.304 C1285.855,30.748 1354.351,47.432 1440.886,72.354 L1441.191,104.352 L1.121,104.031 L0.457,34.035 Z"
-                        ></path>
-                    </g>
-                </g>
-            </svg>
-        </div>
+        <!--        <section-->
+        <!--            class="w-full bg-cover bg-center bg-no-repeat flex items-center justify-center lg:pt-[4.5rem] px-4 md:px-8"-->
+        <!--            style="background-image: url('/images/1.jpg'); min-height: 60vh;"-->
+        <!--        >-->
+        <!--            <div class="text-center text-white max-w-2xl py-16 md:py-24">-->
+        <!--                <h1 class="text-3xl md:text-5xl font-bold mb-4">-->
+        <!--                    Save Lives, Give Blood-->
+        <!--                </h1>-->
+        <!--                <p class="text-base md:text-lg mb-6">-->
+        <!--                    Join our mission to make a difference. One donation at a time.-->
+        <!--                </p>-->
+        <!--                <a-->
+        <!--                    href="#donate"-->
+        <!--                    class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded transition"-->
+        <!--                >-->
+        <!--                    Learn More-->
+        <!--                </a>-->
+        <!--            </div>-->
+        <!--        </section>-->
+        <!--        <div class="from-gray-800 to-gray-600 lg:pt-[4.5rem] pt-13 dark:bg-linear-to-tr heroBgs">-->
+        <!--            <div class="bg-cover containers bg-fixed mx-auto flex flex-col flex-wrap items-center md:flex-row heroBgs bg-no-repeat w-auto" style="background-image: url('images/1.jpg')">-->
+        <!--                <div class="h-96"></div>-->
 
         <!--        Swiper Section-->
         <section id="articles" class="bg-white py-12 dark:bg-black">
@@ -1006,7 +674,7 @@ const prevSlide = () => {
                 <h2 class="my-2 w-full text-center text-5xl leading-tight font-bold text-gray-800 max-lg:text-4xl max-md:text-3xl dark:text-gray-300">
                     Pricing
                 </h2>
-                <div class="mb-4 w-full">
+                <div class="mb-4 w-full bg-orange-400">
                     <div
                         class="gradient mx-auto my-0 h-1 w-64 rounded-t from-gray-400 via-gray-600 to-gray-400 py-0 opacity-25 dark:bg-gradient-to-r dark:opacity-100"
                     ></div>
@@ -1138,82 +806,5 @@ const prevSlide = () => {
                 Action!
             </button>
         </section>
-
-        <!--Footer-->
-        <footer class="bg-white">
-            <div class="container mx-auto px-8">
-                <div class="flex w-full flex-col py-6 md:flex-row">
-                    <div class="mb-6 flex-1 text-black">
-                        <a class="text-2xl font-bold text-pink-600 no-underline hover:no-underline lg:text-4xl" href="#">
-                            <!--Icon from: http://www.potlabicons.com/ -->
-                            <svg class="inline h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.005 512.005">
-                                <rect fill="#2a2a31" x="16.539" y="425.626" width="479.767" height="50.502" transform="matrix(1,0,0,1,0,0)" />
-                                <path
-                                    class="plane-take-off"
-                                    d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z "
-                                />
-                            </svg>
-                            LANDING
-                        </a>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-gray-500 uppercase md:mb-6">Links</p>
-                        <ul class="list-reset mb-6">
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">FAQ</a>
-                            </li>
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Help</a>
-                            </li>
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Support</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-gray-500 uppercase md:mb-6">Legal</p>
-                        <ul class="list-reset mb-6">
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Terms</a>
-                            </li>
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Privacy</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-gray-500 uppercase md:mb-6">Social</p>
-                        <ul class="list-reset mb-6">
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Facebook</a>
-                            </li>
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Linkedin</a>
-                            </li>
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Twitter</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-gray-500 uppercase md:mb-6">Company</p>
-                        <ul class="list-reset mb-6">
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Official Blog</a>
-                            </li>
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">About Us</a>
-                            </li>
-                            <li class="mt-2 mr-2 inline-block md:mr-0 md:block">
-                                <a href="#" class="text-gray-800 no-underline hover:text-pink-500 hover:underline">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <a href="https://www.freepik.com/free-photos-vectors/background" class="text-gray-500"
-                >Background vector created by freepik - www.freepik.com</a
-            >
-        </footer>
-    </div>
+    </WebLayout>
 </template>
