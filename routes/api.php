@@ -20,7 +20,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('divisions', [DonorController::class, 'getDivisions'])->name('api.divisions');
-Route::get('districts/{divisionId}', [DonorController::class, 'getDistricts'])->name('api.districts');
-Route::get('upazilas/{districtId}', [DonorController::class, 'getUpazilas'])->name('api.upazilas');
-Route::get('unions/{upazilaId}', [DonorController::class, 'getUnions'])->name('api.unions');
+Route::get('districts/{divisionId?}', [DonorController::class, 'getDistricts'])->name('api.districts');
+Route::get('upazilas/{districtId?}', [DonorController::class, 'getUpazilas'])->name('api.upazilas');
+Route::get('unions/{upazilaId?}', [DonorController::class, 'getUnions'])->name('api.unions');
 Route::post('/donor', [DonorController::class, 'store'])->name('api.donor.store');
+Route::post('/donor/search', [DonorController::class, 'search'])->name('api.donor.search');

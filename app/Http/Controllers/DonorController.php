@@ -56,27 +56,81 @@ class DonorController extends Controller
         return response()->json(['message' => 'Donor information saved successfully!', 'donor' => $donor], 201);
     }
 
+    /**
+     * Search donors by blood group, division, district (required), and optionally upazilla, union, word.
+     * Returns paginated donor data for table display.
+     */
+    public function search(Request $request)
+    {
+        $validated = $request->validate([
+            'blood_group' => 'required|string|max:3',
+            'division' => 'required',
+            'district' => 'required',
+            'upazilla' => 'nullable',
+            'union' => 'nullable',
+            'word' => 'nullable',
+            'page' => 'nullable|integer|min:1',
+            'per_page' => 'required|integer',
+        ]);
+
+        $query = Donor::query();
+        $query->where('blood_group', $validated['blood_group'])
+            ->where('division', $validated['division'])
+            ->where('district', $validated['district']);
+        if (!empty($validated['upazilla'])) {
+            $query->where('upazilla', $validated['upazilla']);
+        }
+        if (!empty($validated['union'])) {
+            $query->where('union', $validated['union']);
+        }
+        if (!empty($validated['word'])) {
+            $query->where('word', $validated['word']);
+        }
+
+        $perPage = 10;
+        if(isset($validated['per_page'])){
+            $perPage = $validated['per_page'];
+        }
+        $donors = $query->select(['id', 'name', 'blood_group', 'phone as mobile', 'division', 'district', 'upazilla', 'union', 'word', 'gender'])
+            ->orderByDesc('id')
+            ->paginate($perPage);
+
+        return response()->json($donors);
+    }
+
     public function getDivisions()
     {
         $divisions = DB::table('addr_divisions_tb')->get();
         return response()->json($divisions);
     }
 
-    public function getDistricts($divisionId)
+    public function getDistricts($divisionId = null)
     {
-        $districts = DB::table('addr_districts_tb')->where('division_id', $divisionId)->get();
+        if ($divisionId){
+            $districts = DB::table('addr_districts_tb')->where('division_id', $divisionId)->get();
+        }else {
+            $districts = DB::table('addr_districts_tb')->get();
+        }
         return response()->json($districts);
     }
 
-    public function getUpazilas($districtId)
+    public function getUpazilas($districtId=null)
     {
-        $upazilas = DB::table('addr_upazilas_tb')->where('district_id', $districtId)->get();
+        if ($districtId) {
+            $upazilas = DB::table('addr_upazilas_tb')->where('district_id', $districtId)->get();
+        }else {
+            $upazilas = DB::table('addr_upazilas_tb')->get();
+        }
         return response()->json($upazilas);
     }
 
-    public function getUnions($upazilaId)
+    public function getUnions($upazilaId=null)
     {
-        $unions = DB::table('addr_unions_tb')->where('upazilla_id', $upazilaId)->get();
+        if ($upazilaId) {
+            $unions = DB::table('addr_unions_tb')->where('upazilla_id', $upazilaId)->get();
+        }else {
+            $unions = DB::table('addr_unions_tb')->get();
+        }
         return response()->json($unions);
     }
 }

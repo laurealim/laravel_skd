@@ -1,6 +1,6 @@
 <template>
     <!-- <div> -->
-    <div class="col-span-full p-1 md:col-span-3">
+    <div class="col-span-full p-1 md:col-span-4 lg:col-span-3">
         <label for="division" class="mb-2 block text-sm font-medium text-gray-800 dark:text-gray-200"> Division</label>
         <select
             v-model="selectedDivision"
@@ -14,7 +14,7 @@
         </select>
         <p v-if="errors.division" class="text-sm text-red-500">{{ errors.division }}</p>
     </div>
-    <div class="col-span-full p-1 md:col-span-3">
+    <div class="col-span-full p-1 md:col-span-4 lg:col-span-3">
         <label for="district" class="mb-2 block text-sm font-medium text-gray-800 dark:text-gray-200"> District</label>
         <select
             v-model="selectedDistrict"
@@ -28,7 +28,7 @@
         </select>
         <p v-if="errors.district" class="text-sm text-red-500">{{ errors.district }}</p>
     </div>
-    <div class="col-span-full p-1 md:col-span-3">
+    <div class="col-span-full p-1 md:col-span-4 lg:col-span-3">
         <label for="upazila" class="mb-2 block text-sm font-medium text-gray-800 dark:text-gray-200"> Upazilla</label>
         <select
             v-model="selectedUpazila"
@@ -42,7 +42,7 @@
         </select>
         <p v-if="errors.upazilla" class="text-sm text-red-500">{{ errors.upazilla }}</p>
     </div>
-    <div class="col-span-full p-1 md:col-span-3">
+    <div class="col-span-full p-1 md:col-span-4 lg:col-span-3">
         <label for="union" class="mb-2 block text-sm font-medium text-gray-800 dark:text-gray-200"> Union</label>
         <select
             v-model="selectedUnion"
@@ -56,7 +56,7 @@
         </select>
         <p v-if="errors.union" class="text-sm text-red-500">{{ errors.union }}</p>
     </div>
-    <div class="col-span-full p-1 md:col-span-3">
+    <div class="col-span-full p-1 md:col-span-4 lg:col-span-3">
         <label for="word" class="mb-2 block text-sm font-medium text-gray-800 dark:text-gray-200"> Word No.</label>
         <select
             v-model="selectWord"

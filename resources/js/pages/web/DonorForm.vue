@@ -201,7 +201,7 @@ const submitForm = async () => {
                 ></div>
             </div>
             <!-- Modal for success/danger message -->
-            <div v-if="message" class="mt-4">
+            <!-- <div v-if="message" class="mt-4">
                 <div :class="messageType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'" class="rounded-md p-4">
                     {{ message }}
                 </div>
@@ -212,7 +212,8 @@ const submitForm = async () => {
             </div>
             <div v-if="errorMessage" class="alert alert-danger">
                 {{ errorMessage }}
-            </div>
+            </div> -->
+
             <div class="card card-dash w-2/3 bg-gray-100 text-gray-800 shadow-xl dark:bg-gray-600 dark:text-gray-300">
                 <div class="card-body rounded-2xl bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300">
                     <form novalidate @submit.prevent="submitForm" class="container mx-auto flex flex-col space-y-12 text-gray-800">
@@ -221,7 +222,7 @@ const submitForm = async () => {
                             class="grid grid-cols-2 gap-6 rounded-md bg-gray-100 p-6 text-gray-800 shadow-sm dark:bg-gray-800 dark:text-gray-300"
                         >
                             <div class="col-span-full space-y-2 lg:col-span-1">
-                                <p class="font-bold">Personal Inormation</p>
+                                <p class="font-bold">Personal Information</p>
                             </div>
                             <div class="col-span-full grid grid-cols-6 gap-4 lg:col-span-3">
                                 <div class="col-span-full p-1 sm:col-span-3">
@@ -311,7 +312,7 @@ const submitForm = async () => {
                                         <option value="B-">B-(ve)</option>
                                         <option value="AB+">AB+(ve)</option>
                                         <option value="AB-">AB-(ve)</option>
-                                        <option value="O+">A+(ve)</option>
+                                        <option value="O+">O+(ve)</option>
                                         <option value="O-">O-(ve)</option>
                                     </select>
                                     <p v-if="errors.bloodGroup" class="text-sm text-red-500">{{ errors.bloodGroup }}</p>
