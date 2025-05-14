@@ -1,12 +1,17 @@
 @import 'tailwindcss';
 
 @import "tw-animate-css";
+@import "flowbite/src/themes/default";
 
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700");
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source "../../node_modules/flowbite";
+@source "../../node_modules/flowbite-datepicker";
+
 @plugin "daisyui";
+@plugin "flowbite/plugin";
 
 @custom-variant dark (&:is(.dark *));
 

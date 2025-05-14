@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DonorController;
 use App\Models\Person;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,8 @@ Route::get('/', function () {
 Route::get('/web', [PersonController::class,'home'])->name('home');
 Route::get('/about', [PersonController::class,'about'])->name('about');
 Route::get('/contact', [PersonController::class,'contact'])->name('contact');
+Route::get('/search_donor', [DonorController::class,'searchDonor'])->name('search_donor');
+Route::get('/become_donor', [DonorController::class,'becomeDonor'])->middleware(['auth', 'verified'])->name('become_donor');
 
 Route::get('dashboard', function () {
     $people = Person::all();

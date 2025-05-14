@@ -1,71 +1,21 @@
 <script setup lang="ts">
-import { Link,usePage } from '@inertiajs/vue3';
-import { computed,onMounted, ref,defineComponent } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import { onMounted, ref } from 'vue';
 
 import logo from '../../../../storage/app/images/blood-donation.png';
-import type { NavItem } from '@/types';
-import { Button } from '@/components/ui/button';
 
 const isDark = ref(false);
 
-const sidebarNavItems: NavItem[] = [
-    {
-        title: 'Home',
-        href: '/web',
-    },
-    {
-        title: 'About Us',
-        href: '/about',
-    },
-    {
-        title: 'Contact',
-        href: '/contact',
-    },
-];
 
-const page = usePage();
-
-const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.location).pathname : '';
-
-
-// const NavLink = defineComponent({
-//     props: {
-//         href: {
-//             type: String,
-//             required: true,
-//         },
-//         label:{
-//             type: String,
-//             required: true,
-//         },
-//     },
-//     setup(props) {
-//         const page = usePage();
-//         const isActive = computed(() => {
-//             return props.href === page.props.url || page.url === new URL(props.href,window.location.origin).pathname;
-//         });
-//         return {
-//             isActive,
-//         };
-//     },
-//     template: `<Link
-//         :href="href"
-//         :class="[
-//             'dark:text-blue inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:font-bold hover:text-gray-800 mb-2 hover:border-b-4 hover:border-b-orange-700 dark:text-white', isActive ? 'scale-105 font-bold text-gray-800 border-b-4 border-b-orange-700' : 'hover:scale-105 hover:font-bold hover:text-gray-800 hover:border-b-4 hover:border-b-orange-700'
-//             ]"
-//     >
-//     {{ label }}
-//     </Link>`
-// });
 
 onMounted(() => {
     let scrollpos = window.scrollY;
-    let header = document.getElementById('header');
-    let navcontent = document.getElementById('nav-content');
-    let navaction = document.getElementById('navAction');
-    let brandname = document.getElementById('brandname');
-    let toToggle = document.querySelectorAll('.toggleColour');
-    let toggleButton = document.getElementById('toggleButton');
+    const header = document.getElementById('header');
+    const navcontent = document.getElementById('nav-content');
+    // let navaction = document.getElementById('navAction');
+    // const brandname = document.getElementById('brandname');
+    const toToggle = document.querySelectorAll('.toggleColour');
+    const toggleButton = document.getElementById('toggleButton');
 
     document.addEventListener('scroll', function () {
         /*Apply classes for slide in bar*/
@@ -81,8 +31,8 @@ onMounted(() => {
     /*Toggle dropdown list*/
     /*https://gist.github.com/slavapas/593e8e50cf4cc16ac972afcbad4f70c8*/
 
-    let navMenuDiv = document.getElementById('nav-content');
-    let navMenu = document.getElementById('nav-toggle');
+    const navMenuDiv = document.getElementById('nav-content');
+    const navMenu = document.getElementById('nav-toggle');
 
     document.onclick = check;
 
@@ -126,7 +76,7 @@ onMounted(() => {
     /* Dark Mood functionality Ends */
 
     /*  Check Scrolling Changes */
-    function scrollFunction(e) {
+    function scrollFunction() {
         if (scrollpos > 10) {
             toggleButton.classList.remove('show');
             toggleButton.classList.add('hidden');
@@ -137,11 +87,11 @@ onMounted(() => {
             if (isDark.value) {
                 // Dark Mode
                 header.classList.add('bg-white');
-                navaction.classList.remove('bg-white');
+                // navaction.classList.remove('bg-white');
                 // navaction.classList.add("gradient");
-                navaction.classList.add('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
-                navaction.classList.remove('text-gray-800');
-                navaction.classList.add('text-white');
+                // navaction.classList.add('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
+                // navaction.classList.remove('text-gray-800');
+                // navaction.classList.add('text-white');
                 //Use to switch toggleColour colours
                 for (var i = 0; i < toToggle.length; i++) {
                     toToggle[i].classList.add('text-gray-100');
@@ -153,15 +103,15 @@ onMounted(() => {
             } else {
                 // Normal Mode
                 header.classList.add('bg-white');
-                navaction.classList.remove('bg-white');
-                navaction.classList.add('gradient');
+                // navaction.classList.remove('bg-white');
+                // navaction.classList.add('gradient');
                 // navaction.classList.add(
                 //     "dark:bg-gradient-to-tr",
                 //     "dark:from-gray-800",
                 //     "dark:to-gray-600"
                 // );
-                navaction.classList.remove('text-gray-800');
-                navaction.classList.add('text-white');
+                // navaction.classList.remove('text-gray-800');
+                // navaction.classList.add('text-white');
                 //Use to switch toggleColour colours
                 for (var i = 0; i < toToggle.length; i++) {
                     toToggle[i].classList.add('text-gray-800');
@@ -182,10 +132,10 @@ onMounted(() => {
                 // Dark Mode
                 header.classList.remove('bg-white');
                 // navaction.classList.remove("gradient");
-                navaction.classList.remove('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
-                navaction.classList.add('bg-white');
-                navaction.classList.remove('text-white');
-                navaction.classList.add('text-gray-800');
+                // navaction.classList.remove('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
+                // navaction.classList.add('bg-white');
+                // navaction.classList.remove('text-white');
+                // navaction.classList.add('text-gray-800');
                 //Use to switch toggleColour colours
                 for (var i = 0; i < toToggle.length; i++) {
                     toToggle[i].classList.add('text-white');
@@ -198,15 +148,15 @@ onMounted(() => {
             } else {
                 // Normal Mode
                 header.classList.remove('bg-white');
-                navaction.classList.remove('gradient');
+                // navaction.classList.remove('gradient');
                 // navaction.classList.remove(
                 //     "dark:bg-gradient-to-tr",
                 //     "dark:from-gray-800",
                 //     "dark:to-gray-600"
                 // );
-                navaction.classList.add('bg-white');
-                navaction.classList.remove('text-white');
-                navaction.classList.add('text-gray-800');
+                // navaction.classList.add('bg-white');
+                // navaction.classList.remove('text-white');
+                // navaction.classList.add('text-gray-800');
                 //Use to switch toggleColour colours
                 for (var i = 0; i < toToggle.length; i++) {
                     toToggle[i].classList.add('text-white');
@@ -223,19 +173,19 @@ onMounted(() => {
 
 /* DarK Mood Toggle */
 const toggleDarkMode = () => {
-    let navaction = document.getElementById('navAction');
+    // let navaction = document.getElementById('navAction');
     let toToggle = document.querySelectorAll('.toggleColour');
     isDark.value = !isDark.value;
     if (isDark.value) {
         document.documentElement.classList.add('dark');
         localStorage.setItem('theme', 'dark');
         // navaction.classList.remove("gradient");
-        navaction.classList.remove('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
+        // navaction.classList.remove('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
     } else {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
         // navaction.classList.add("gradient");
-        navaction.classList.add('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
+        // navaction.classList.add('dark:bg-gradient-to-tr', 'dark:from-gray-800', 'dark:to-gray-600');
     }
 };
 </script>
@@ -278,13 +228,10 @@ const toggleDarkMode = () => {
                 class="z-20 mt-2 hidden w-full flex-grow bg-white p-4 text-black lg:mt-0 lg:flex lg:w-auto lg:items-center lg:bg-transparent lg:p-0 dark:max-lg:bg-black"
                 id="nav-content"
             >
-                <!--                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">-->
-                <!--                    -->
-                <!--                </ul>-->
-                <ul class="list-reset flex-1 items-center justify-end lg:flex list-reset">
+                <ul class="list-reset list-reset flex-1 items-center justify-end lg:flex">
                     <li class="mr-3" id="toggleButton">
                         <!-- Toggle Button -->
-                        <button @click="toggleDarkMode" class="focus:outline-none cursor-pointer">
+                        <button @click="toggleDarkMode" class="cursor-pointer focus:outline-none">
                             <!-- Moon Icon (show in light mode) -->
                             <svg
                                 v-show="!isDark"
@@ -319,60 +266,60 @@ const toggleDarkMode = () => {
                             </svg>
                         </button>
                     </li>
-
-<!--                    <li-->
-<!--                        v-for="item in sidebarNavItems"-->
-<!--                        :key="item.href"-->
-<!--                        variant="ghost"-->
-<!--                        :class="[ { 'bg-muted': currentPath === item.href }]"-->
-<!--                        as-child>-->
-<!--                        <Link :href="item.href" class="dark:text-blue inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:font-bold hover:text-gray-800 mb-2 hover:border-b-4 hover:border-b-orange-700 dark:text-white">-->
-<!--                            {{ item.title }}-->
-<!--                        </Link>-->
-<!--                    </li>-->
                     <Link
                         :href="route('home')"
-                        class="dark:text-blue inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:font-bold hover:text-gray-800 mb-2 hover:border-b-4 hover:border-b-orange-700 dark:text-white"
+                        class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
                     >
                         Home
                     </Link>
                     <Link
+                        :href="route('search_donor')"
+                        class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
+                        >Search a Donor
+                    </Link>
+                    <Link
+                        :href="route('become_donor')"
+                        class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
+                        >Become a Donor
+                    </Link>
+                    <Link
                         :href="route('about')"
-                        class="dark:text-blue inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:font-bold hover:text-gray-800 mb-2 hover:border-b-4 hover:border-b-orange-700 dark:text-white"
+                        class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
                         >About
                     </Link>
                     <Link
                         :href="route('contact')"
-                        class="dark:text-blue inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:font-bold hover:text-gray-800 mb-2 hover:border-b-4 hover:border-b-orange-700 dark:text-white"
+                        class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
                         >Contact
                     </Link>
-
-<!--                    <NavLink href="/" label="Home" />-->
-<!--                    <NavLink :href="route('about')" label="About" />-->
-<!--                    <NavLink :href="route('register')" label="Register" />-->
-
-                    <!--                    <li class="mr-3">-->
-                    <!--                        <a href="#" class="block py-2 px-4 text-gray-800 bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="mr-3">-->
-                    <!--                        <a href="#" class="block py-2 px-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="mr-3">-->
-                    <!--                        <a href="#" class="block py-2 px-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="mr-3">-->
-                    <!--                        <a href="#" class="block py-2 px-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="mr-3">-->
-                    <!--                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>-->
-                    <!--                    </li>-->
+                    <Link
+                        v-if="$page.props.auth.user"
+                        :href="route('dashboard')"
+                        class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
+                    >
+                        Dashboard
+                    </Link>
+                    <template v-else>
+                        <Link
+                            :href="route('login')"
+                            class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
+                        >
+                            Log in
+                        </Link>
+                        <Link
+                            :href="route('register')"
+                            class="dark:text-blue mb-2 inline-block px-4 py-2 font-bold text-gray-600 no-underline transition-all duration-10 hover:scale-105 hover:border-b-4 hover:border-b-orange-700 hover:font-bold hover:text-gray-800 dark:text-white"
+                        >
+                            Register
+                        </Link>
+                    </template>
                 </ul>
-                <button
+                <!-- <button
                     id="navAction"
                     class="focus:shadow-outline mx-auto mt-4 transform rounded-full bg-white px-8 py-4 font-bold text-gray-800 opacity-75 shadow transition duration-300 ease-in-out hover:scale-105 hover:underline focus:outline-none lg:mx-0 lg:mt-0"
                 >
                     Action
-                </button>
+                </button> -->
             </div>
         </div>
         <hr class="my-0 border-b border-gray-100 py-0 opacity-25" />

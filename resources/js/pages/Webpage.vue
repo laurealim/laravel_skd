@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link,router } from '@inertiajs/vue3';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 import WebLayout from '@/layouts/WebLayout.vue';
@@ -73,6 +73,10 @@ const nextSlide = () => {
 const prevSlide = () => {
     currentSlide.value = (currentSlide.value - 1 + slides.length) % slides.length;
 };
+
+function navigateToDonorPage() {
+    router.visit(route('become_donor'));
+}
 </script>
 <template>
     <Head title="Welcome">
@@ -792,18 +796,22 @@ const prevSlide = () => {
 
         <section class="container mx-auto mb-12 py-6 text-center">
             <h2 class="text-whitedark:text-gray-100 my-2 w-full text-center text-5xl leading-tight font-bold max-lg:text-4xl max-md:text-3xl">
-                Call to Action
+                Become a Donor.
             </h2>
             <div class="mb-4 w-full">
                 <div
                     class="mx-auto my-0 h-1 w-64 rounded-t bg-white from-gray-400 via-gray-600 to-gray-400 py-0 opacity-25 dark:bg-gradient-to-r dark:opacity-100"
                 ></div>
             </div>
-            <h3 class="my-4 text-3xl leading-tight max-md:text-2xl dark:text-gray-100">Main Hero Message to sell yourself!</h3>
-            <button
-                class="focus:shadow-outline mx-auto my-6 transform rounded-full bg-white from-gray-400 to-gray-800 px-8 py-4 font-bold text-gray-800 shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:underline focus:outline-none lg:mx-0 dark:bg-linear-to-bl dark:text-gray-200"
+            <h3 class="my-4 text-3xl leading-tight max-md:text-2xl dark:text-gray-100">Be a Lifesaver Today. Donate Blood. Save Lives!</h3>
+            <!-- <div>
+                <Link :href="route('become_donor')" class="inline-blocks gradient h-10 w-20">Become a Donor </Link>
+            </div> -->
+            <button id="donorButton"
+                @click="navigateToDonorPage"
+                class="gradient focus:shadow-outline mx-auto my-6 transform rounded-full bg-white from-gray-400 to-gray-800 px-8 py-4 font-bold text-gray-200 shadow-lg transition duration-300 ease-in-out hover:scale-105 cursor-pointer focus:outline-none lg:mx-0 dark:bg-linear-to-bl dark:text-gray-200"
             >
-                Action!
+                Become a Donor
             </button>
         </section>
     </WebLayout>
